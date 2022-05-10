@@ -1,0 +1,36 @@
+{
+	"name": "${localWorkspaceFolderBasename}",
+    "image": "${localWorkspaceFolderBasename}:latest",
+    "initializeCommand": "test -f .devcontainer/.doBuild && { docker build .devcontainer/. -f .devcontainer/Dockerfile -t ${localWorkspaceFolderBasename}:latest; rm -f .devcontainer/.doBuild; } || true",
+    "runArgs": [
+        "--name", "${localWorkspaceFolderBasename}",
+        "--rm",
+        "--env-file",".env"
+    ],
+    "mounts": [
+        "source=vscode,target=/home/vscode/.vscode-server,type=volume",
+    ],
+    "shutdownAction": "stopContainer",
+    "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.banditPath": "/home/vscode/.local/bin/bandit",
+        "python.linting.banditEnabled": true,
+        "python.linting.flake8Path": "/home/vscode/.local/bin/flake8",
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Args": ["--ignore=E501"],
+        "python.formatting.blackPath": "/home/vscode/.local/bin/black",
+        "python.formatting.provider": "black",
+        "python.languageServer": "Default"
+    },
+	"extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+    ],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/workspace,type=bind",
+    "workspaceFolder": "/home/vscode/workspace",
+    
+    "updateRemoteUserUID": false,
+	"remoteUser": "vscode"
+}
